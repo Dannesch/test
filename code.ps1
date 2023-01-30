@@ -1,1 +1,1 @@
-Write-Host "Hello"
+"Hello" | Add-Content -Path "C:\ahhahaha.hello"
