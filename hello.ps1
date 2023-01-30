@@ -1,1 +1,1 @@
-Write-Host "wassa"
+Restart-Computer
